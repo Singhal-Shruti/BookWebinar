@@ -30,6 +30,12 @@
         </div>
     </EditForm>
 
+    <div>
+        Your Pass code is: <span id="passCodeSpan"></span>
+    </div>
+
+    <button class="btn btn-info" onclick="getPassCode(100)">Get Pass Code</button>
+
 
 @code {
 
@@ -44,6 +50,11 @@
     private async Task AddParticipant(){
         currentCount++;
         await jsRuntime.InvokeVoidAsync("Alert", "You have been registered");
+    }
+
+    [JSInvokable]
+    public static Task<int> GeneratePassCode(int maxVlaue){
+        return Task.FromResult(new Random().Next(maxVlaue));
     }
 
 }
