@@ -1,0 +1,49 @@
+@page "/webinars"
+@inject HttpClient Http
+@inject IJSRuntime jsRuntime
+
+<h1>Upcoming Event</h1>
+<br />
+
+<h2> High Five to .NET World</h2>
+
+<p>Current Number of participants: @currentCount</p>
+
+    <EditForm EditContext="editContext" OnValidSubmit="AddParticipant">
+        <DataAnnotationsValidator />
+
+        <div class="form-field">
+            <label>Name:</label>
+            <InputText @bind-Value="@formData.Name" />
+            <ValidationMessage For="() => formData.Name" />
+        </div>
+
+        <div class="form-field">
+            <label>Email:</label>
+            <InputText @bind-Value="@formData.Email" />
+            <ValidationMessage For="() => formData.Email" />
+        </div>
+
+        <br />
+        <div class="toolbar">
+            <button type="submit" class="toolbar-item toolbar-item-end toolbar-item-bg btn btn-primary">Register</button>
+        </div>
+    </EditForm>
+
+
+@code {
+
+    EditContext editContext;
+    BookWebinar.Shared.Participant formData;
+    public Webinars()
+    {
+        formData =  new BookWebinar.Shared.Participant();
+        editContext = new EditContext(formData);
+    }
+    private int currentCount = 0;
+    private async Task AddParticipant(){
+        currentCount++;
+        await jsRuntime.InvokeVoidAsync("Alert", "You have been registered");
+    }
+
+}
